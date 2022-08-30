@@ -7,10 +7,9 @@
     >
     <transition name="fade" appear>
       <b-alert variant="info" show v-if="exibir">{{ msg }}</b-alert>
-      <!-- <p v-if="exibir">{{ msg }}</p> -->
     </transition>
 
-    <transition name="slide" appear>
+    <transition name="slide" type="animation" appear>
       <b-alert variant="info" show v-if="exibir">{{ msg }}</b-alert>
     </transition>
 
@@ -20,6 +19,20 @@
     >
       <b-alert variant="info" show v-if="exibir">{{ msg }}</b-alert>
     </transition>
+
+    <!-- controla daqui -->
+    <hr />
+    <b-select v-model="tipoAnimacao" class="mb-4">
+      <option value="fade">Fade</option>
+      <option value="slide">Slide</option>
+    </b-select>
+
+    <!-- mode out-in primeiro um sai para depois o outro entrar -->
+    <transition :name="tipoAnimacao" mode="out-in">
+      <b-alert variant="info" show v-if="exibir" key="info">{{ msg }}</b-alert>
+      <b-alert variant="warning" show v-else key="warning">{{ msg }}</b-alert>
+    </transition>
+    <!-- até aqui -->
   </div>
 </template>
 
@@ -29,6 +42,7 @@ export default {
     return {
       msg: "Uma mensagem de informação para o usuário!",
       exibir: false,
+      tipoAnimacao: "fade",
     };
   },
 };
