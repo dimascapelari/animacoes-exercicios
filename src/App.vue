@@ -5,14 +5,20 @@
     <b-button variant="primary" class="mb-4" @click="exibir = !exibir"
       >Mostrar mensagem</b-button
     >
-    <transition name="fade">
+    <transition name="fade" appear>
       <b-alert variant="info" show v-if="exibir">{{ msg }}</b-alert>
       <!-- <p v-if="exibir">{{ msg }}</p> -->
     </transition>
 
-    <transition name="slide">
+    <transition name="slide" appear>
       <b-alert variant="info" show v-if="exibir">{{ msg }}</b-alert>
-      <!-- <p v-if="exibir">{{ msg }}</p> -->
+    </transition>
+
+    <transition
+      enter-active-class="animated bounce"
+      leave-active-class="animated shake"
+    >
+      <b-alert variant="info" show v-if="exibir">{{ msg }}</b-alert>
     </transition>
   </div>
 </template>
