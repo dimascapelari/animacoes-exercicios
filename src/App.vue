@@ -21,20 +21,20 @@
     </transition>
 
     <!-- controla daqui -->
-    <hr />
+    <!-- <hr />
     <b-select v-model="tipoAnimacao" class="mb-4">
       <option value="fade">Fade</option>
       <option value="slide">Slide</option>
-    </b-select>
+    </b-select> -->
 
     <!-- mode out-in primeiro um sai para depois o outro entrar -->
-    <transition :name="tipoAnimacao" mode="out-in">
+    <!-- <transition :name="tipoAnimacao" mode="out-in">
       <b-alert variant="info" show v-if="exibir" key="info">{{ msg }}</b-alert>
       <b-alert variant="warning" show v-else key="warning">{{ msg }}</b-alert>
-    </transition>
+    </transition> -->
     <!-- até aqui -->
 
-    <hr />
+    <!-- <hr />
     <button @click="exibir2 = !exibir2">Alternar</button>
     <transition
       :css="false"
@@ -66,7 +66,31 @@
     </div>
     <transition name="fade" mode="out-in">
       <component :is="componenteSelecionado"></component>
-    </transition>
+    </transition> -->
+
+    <hr />
+    <!-- Exemplo do curso -->
+    <b-button @click="adicionarAluno" class="mb-4">Adicionar Aluno</b-button>
+    <b-list-group v-for="(aluno, i) in alunos" :key="aluno">
+      <b-list-group-item @click="removerAluno(i)"
+        >{{ aluno }}
+      </b-list-group-item>
+    </b-list-group>
+
+    <hr />
+
+    <!-- Meu Exemplo -->
+    <hr />
+    <b-button @click="adicionarAluno" class="mb-4">Adicionar Aluno</b-button>
+    <transition-group name="slide" tag="div"
+      ><!-- tag="div" envolve em uma div e não em span-->
+      <b-list-group v-for="(aluno, i) in alunos" :key="aluno">
+        <b-list-group-item
+          >{{ aluno }}
+          <b-button variant="danger" @click="removerAluno(i)">X</b-button>
+        </b-list-group-item>
+      </b-list-group>
+    </transition-group>
   </div>
 </template>
 
@@ -81,6 +105,7 @@ export default {
   },
   data() {
     return {
+      alunos: ["Roberto", "Julia", "Teresa", "Paulo"],
       msg: "Uma mensagem de informação para o usuário!",
       exibir: false,
       exibir2: true,
@@ -90,6 +115,13 @@ export default {
     };
   },
   methods: {
+    adicionarAluno() {
+      const s = Math.random().toString(36).substring(2);
+      this.alunos.push(s);
+    },
+    removerAluno(indice) {
+      this.alunos.splice(indice, 1);
+    },
     animar(el, done, negativo) {
       let rodada = 1;
       const temporizador = setInterval(() => {
@@ -191,6 +223,8 @@ export default {
 }
 
 .slide-leave-active {
+  position: absolute;
+  width: 100%;
   animation: slide-out 2s ease;
   transition: opacity 2s;
 }
@@ -198,6 +232,10 @@ export default {
 .slide-enter,
 .slide-leave-to {
   opacity: 0;
+}
+
+.slide-move {
+  transition: transform 1s;
 }
 
 /* .fade-enter {
