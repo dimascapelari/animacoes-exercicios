@@ -35,7 +35,7 @@
     <!-- até aqui -->
 
     <hr />
-    <button @click="exibir2 = !exibir2">Mostrar</button>
+    <button @click="exibir2 = !exibir2">Alternar</button>
     <transition
       :css="false"
       @before-enter="beforeEnter"
@@ -60,35 +60,55 @@ export default {
       exibir: false,
       exibir2: true,
       tipoAnimacao: "fade",
+      larguraBase: 0,
     };
   },
   methods: {
+    animar(el, done, negativo) {
+      let rodada = 1;
+      const temporizador = setInterval(() => {
+        const novaLargura =
+          this.larguraBase + (negativo ? -rodada * 10 : rodada * 10);
+        el.style.width = `${novaLargura}px`;
+        rodada++;
+        if (rodada > 30) {
+          clearInterval(temporizador);
+          done();
+        }
+      }, 20);
+    },
     beforeEnter(el) {
-      console.log("beforeEnter");
+      this.larguraBase = 0;
+      el.style.width = `${this.larguraBase}px`;
+      // console.log("beforeEnter");
     },
     enter(el, done) {
-      console.log("enter");
-      done();
+      this.animar(el, done, false);
+      // console.log("enter");
+      // done();
     },
-    afterEnter(el) {
-      console.log("afterEnter");
-    },
-    enterCancelled() {
-      console.log("enterCancelled");
-    },
+    // afterEnter(el) {
+    //   console.log("afterEnter");
+    // },
+    // enterCancelled() {
+    //   console.log("enterCancelled");
+    // },
     beforeLeave(el) {
-      console.log("beforeLeave");
+      this.larguraBase = 300;
+      el.style.width = `${this.larguraBase}px`;
+      // console.log("beforeLeave");
     },
     leave(el, done) {
-      console.log("leave");
-      done();
+      this.animar(el, done, true);
+      // console.log("leave");
+      // done();
     },
-    afterLeave(el) {
-      console.log("afterLeave");
-    },
-    leaveCancelled() {
-      console.log("leaveCancelled");
-    },
+    // afterLeave(el) {
+    //   console.log("afterLeave");
+    // },
+    // leaveCancelled() {
+    //   console.log("leaveCancelled");
+    // },
   },
 };
 </script>
